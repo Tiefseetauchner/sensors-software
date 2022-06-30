@@ -247,11 +247,9 @@ float readCorrectionOffset(const char* correction) {
 	// TODO: fix this mess to use fixed point :)
 	float r = float(strtol(correction, &pEnd, 10));
 	if (pEnd && pEnd[0] == '.' && pEnd[1] >= '0' && pEnd[1] <= '9') {
-		int i = 0;
-		bool isNegative = correction[i] == '-';
-		while (correction[i] == ' ') {
-			i++;
-			isNegative = correction[i] == '-';
+		bool isNegative = correction[0] == '-';
+		for (int i = 0; correction[i] == ' '; i++) {
+			isNegative = correction[i + 1] == '-';
 		}
 
 		r += (isNegative ? -1.0f : 1.0f) * ((pEnd[1] - '0') / 10.0f);
